@@ -20,7 +20,9 @@ app.use(
     // Them cac cau hinh can thiet
   })
 );
-
+app.get('/', (req, res) => {
+	res.send('Hello from Express on Vercel!');
+  });
 setupSwagger(app);
 
 app.use("/api", routes);
