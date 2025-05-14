@@ -14,11 +14,11 @@ app.use(express.json());
 connectDb();
 
 app.use(
-	cors({
-		origin: ["http://localhost:5173", "http://localhost:5174"],
-		credentials: true,
-		// Them cac cau hinh can thiet
-	})
+  cors({
+    origin: ["http://localhost:5173", "http://localhost:5174"],
+    credentials: true,
+    // Them cac cau hinh can thiet
+  })
 );
 
 setupSwagger(app);
@@ -33,17 +33,13 @@ app.use(notFoundHandler);
 
 // Middleware xử lý lỗi chung
 app.use(errorHandler);
-app.get('/', (req, res) => {
-	res.send('Hello from Express on Vercel!');
-  });
-  
-const server = app.listen(PORT, () => {
-	console.log(`Server is running on: http://localhost:${PORT}/api`);
-	console.log(`Swagger Docs available at http://localhost:${PORT}/api-docs`);
+app.get("/", (req, res) => {
+  res.send("Hello from Express on Vercel!");
 });
 
 // Middleware xử lý lỗi không xác định
 process.on("unhandledRejection", (error, promise) => {
-	console.error(`Error: ${error.message}`);
-	server.close(() => process.exit(1));
+  console.error(`Error: ${error.message}`);
+  server.close(() => process.exit(1));
 });
+export const viteNodeApp = app;
