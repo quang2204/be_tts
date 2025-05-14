@@ -3,7 +3,6 @@ import routes from "./src/routes/index.js";
 import notFoundHandler from "./src/middlewares/notFoundHandler.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
 import cors from "cors";
-import { PORT } from "./src/configs/enviroments.js";
 import jsonValid from "./src/middlewares/jsonInvalid.js";
 import setupSwagger from "./src/configs/swaggerConfig.js";
 import { connectDb } from "./src/configs/db.js";
@@ -11,20 +10,26 @@ import { connectDb } from "./src/configs/db.js";
 const app = express();
 app.use(express.json());
 
+// Kết nối DB
 connectDb();
 
+// CORS cấu hình
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
-    // Them cac cau hinh can thiet
   })
 );
-app.get('/', (req, res) => {
-	res.send('Hello from Express on Vercel!');
-  });
+
+// Swagger docs
 setupSwagger(app);
 
+// Route gốc
+app.get("/", (req, res) => {
+  res.send("Hello from Express on Vercel!");
+});
+
+// API routes
 app.use("/api", routes);
 
 // Middleware xử lý JSON không hợp lệ
@@ -35,13 +40,8 @@ app.use(notFoundHandler);
 
 // Middleware xử lý lỗi chung
 app.use(errorHandler);
-app.get("/", (req, res) => {
-  res.send("Hello from Express on Vercel!");
-});
 
-// Middleware xử lý lỗi không xác định
-process.on("unhandledRejection", (error, promise) => {
-  console.error(`Error: ${error.message}`);
-  server.close(() => process.exit(1));
-});
-export const viteNodeApp = app;
+// ❌ KHÔNG dùng app.listen hay PORT
+
+// ✅ Export default cho Vercel
+export default app;
