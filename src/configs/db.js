@@ -1,16 +1,8 @@
 import mongoose from "mongoose";
-import { DB_URI } from "./enviroments.js";
-
-const connectDB = async () => {
-	try {
-		const connected = await mongoose.connect(DB_URI);
-		console.log(
-			`Connected MongoDB: mongodb://${connected.connection.host}:${connected.connection.port}/${connected.connection.name}`
-		);
-	} catch (error) {
-		console.error(`Error: ${error.message}`);
-		process.exit(1);
-	}
+export const connectDb = async () => {
+  try {
+    await mongoose.connect("mongodb+srv://quang20042204:UYQyIcW7n0QtzQPx@cluster0.uee1tkk.mongodb.net/shopquanao").then();
+  } catch (error) {
+    console.log(error);
+  }
 };
-
-export default connectDB;
